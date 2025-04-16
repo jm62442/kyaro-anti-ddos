@@ -1,0 +1,40 @@
+Kyaro Anti-DDoS - LICENSE
+
+Copyright (C) 2025 Lê Hùng Quang Minh <zyntherdev@gmail.com>
+
+This file is part of Kyaro Anti-DDoS.
+
+Kyaro Anti-DDoS is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Kyaro Anti-DDoS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+---
+
+Attribution Requirement
+========================
+
+As a condition for using or distributing Kyaro Anti-DDoS, you **MUST** provide proper attribution to the original author:
+
+- Author: **Lê Hùng Quang Minh**
+- Contact: **zyntherdev@gmail.com**
+- Project: **Kyaro Anti-DDoS**
+
+Any redistributed or derivative works **MUST** include clear and visible credit to the original author in both source code and documentation, such as:
+
+> "Based on Kyaro Anti-DDoS by Lê Hùng Quang Minh (zyntherdev@gmail.com)."
+
+Failure to comply with this attribution requirement violates the terms of this license.
+
+---
+
+For the full license text, see the included file `COPYING` or visit:  
+https://www.gnu.org/licenses/gpl-3.0.en.html

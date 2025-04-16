@@ -1,0 +1,40 @@
+{
+  "layer3": {
+    "enable_ip_blacklisting": true,
+    "enable_geo_blocking": true,
+    "enable_rate_limiting": true,
+    "max_packet_size": 65535,
+    "min_ttl": 5,
+    "blocked_countries": [],
+    "rate_limit_threshold": 1000
+  },
+  "layer4": {
+    "enable_syn_protection": true,
+    "enable_udp_protection": true,
+    "enable_icmp_protection": true,
+    "syn_rate_threshold": 500,
+    "udp_rate_threshold": 500,
+    "icmp_rate_threshold": 100,
+    "max_concurrent_connections": 1000,
+    "blocked_ports": []
+  },
+  "layer7": {
+    "enable_http_protection": true,
+    "enable_dns_protection": true,
+    "enable_ssl_protection": true,
+    "http_request_rate_threshold": 100,
+    "blocked_http_methods": ["TRACE", "TRACK"],
+    "challenge_suspicious_requests": true,
+    "bot_protection_level": 2,
+    "waf_rules_enabled": true
+  },
+  "ml": {
+    "enable_ml": true,
+    "training_interval_hours": 24,
+    "detection_threshold": 0.85,
+    "anomaly_sensitivity": 0.7
+  },
+  "log_level": "info",
+  "data_retention_days": 30,
+  "api_port": 6868
+} 
