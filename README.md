@@ -17,6 +17,8 @@ Kyaro Anti-DDoS consists of:
 
 1. **Rust Backend**: High-performance core for packet processing and protection logic
 2. **Python ML Engine**: Machine learning models for threat detection
+   - **Basic ML Engine**: Traditional machine learning models (Random Forest, Isolation Forest)
+   - **Advanced DL Engine**: Deep learning models with CNN and BiGRU architectures for time series analysis
 3. **React Dashboard**: User interface for monitoring and configuration
 4. **API Server**: REST API for integrations and programmatic access
 
@@ -142,7 +144,10 @@ Configuration is managed through:
   "ml": {
     "enabled": true,
     "model_path": "models/threat_detection.pkl",
-    "threshold": 0.8
+    "threshold": 0.8,
+    "use_advanced_model": true,
+    "sequence_length": 10,
+    "use_explainer": true
   }
 }
 ```
@@ -189,6 +194,30 @@ cd dashboard
 npm install
 npm run build
 ```
+
+### Advanced DDoS Detection Model
+
+Kyaro Anti-DDoS includes an advanced deep learning model for real-time DDoS detection with the following features:
+
+- **CNN Architecture**: Utilizes convolutional neural networks to capture spatial patterns in network traffic
+- **Bidirectional GRU**: Processes sequential traffic data in both directions for better temporal pattern recognition
+- **Ensemble Learning**: Combines multiple models for higher accuracy and robustness
+- **Explainable AI**: Uses SHAP (SHapley Additive exPlanations) to provide interpretable results, explaining why traffic was flagged as malicious
+- **Real-time Performance**: Optimized for low-latency prediction in production environments
+
+To train the advanced model:
+
+```
+cd kyaro_antiddos/src/ml
+python train_advanced_model.py --generate-data
+```
+
+Training options:
+- `--sequence-length`: Number of time steps for sequence models (default: 10)
+- `--batch-size`: Batch size for training (default: 32)
+- `--epochs`: Maximum number of epochs (default: 100)
+- `--no-explainer`: Disable SHAP explainer for model interpretability
+- `--generate-data`: Generate synthetic data if no real data exists
 
 ### Running Tests
 

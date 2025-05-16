@@ -48,7 +48,14 @@
     "anomaly_sensitivity": 0.7,
     "feature_extraction_window_seconds": 60,
     "model_save_path": "./ml_models",
-    "use_gpu_acceleration": false
+    "use_gpu_acceleration": false,
+    "use_advanced_model": true,
+    "sequence_length": 10,
+    "use_explainer": true,
+    "ensemble_weights": {
+      "cnn": 0.4,
+      "bigru": 0.6
+    }
   },
   "notification": {
     "enable_email_alerts": false,

@@ -174,6 +174,16 @@ pub async fn analyze_traffic_patterns(traffic_data: &[u8]) -> Result<Value> {
         let path = sys.getattr("path")?;
         path.call_method1("append", (ML_MODULE_PATH,))?;
         
+        // Try to use the advanced model first
+        let advanced_result = try_advanced_model(py, traffic_data);
+        
+        if let Ok(result) = advanced_result {
+            return Ok(result);
+        }
+        
+        // Fall back to the basic model if advanced model fails
+        info!("Advanced model failed or not available, falling back to basic model");
+        
         // Import the ML engine module
         let ml_engine = PyModule::import(py, "ml_engine")?;
         
@@ -196,6 +206,51 @@ pub async fn analyze_traffic_patterns(traffic_data: &[u8]) -> Result<Value> {
         
         Ok(value)
     }).map_err(|e| anyhow::anyhow!("Python error: {}", e))
+}
+
+// Try to use the advanced deep learning model
+fn try_advanced_model(py: Python, traffic_data: &[u8]) -> Result<Value> {
+    // Try to import the advanced model module
+    let advanced_module = match PyModule::import(py, "advanced_dl_model") {
+        Ok(module) => module,
+        Err(e) => {
+            debug!("Advanced DL model not available: {}", e);
+            return Err(anyhow::anyhow!("Advanced model not available"));
+        }
+    };
+    
+    // Create an instance of the KyaroAdvancedDL class
+    let advanced_engine = advanced_module.getattr("KyaroAdvancedDL")?.call0()?;
+    
+    // Parse the traffic data
+    let json_str = std::str::from_utf8(traffic_data)?;
+    let os_json = py.import("json")?;
+    let traffic_dict = os_json.call_method1("loads", (json_str,))?;
+    
+    // Get the traffic history from the dict
+    let traffic_history = match traffic_dict.get_item("traffic_history") {
+        Ok(history) => history,
+        Err(_) => {
+            // If no history is provided, wrap the current data in a list
+            let list = PyList::new(py, &[traffic_dict]);
+            list
+        }
+    };
+    
+    // Prepare sequence data
+    let sequence = advanced_engine.call_method1("prepare_sequence_from_traffic", (traffic_history,))?;
+    
+    // Make prediction
+    let result = advanced_engine.call_method1("predict", (sequence,))?;
+    
+    // Convert result to JSON string
+    let result_str = os_json.call_method1("dumps", (result,))?.extract::<String>()?;
+    
+    // Parse the JSON string to serde_json::Value
+    let value: Value = serde_json::from_str(&result_str)?;
+    
+    info!("Advanced DL model prediction: {}", value);
+    Ok(value)
 }
 
 // Classify a threat with ML
